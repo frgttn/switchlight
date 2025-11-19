@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc",
     "start": "node dist/main.js",
     "dev": "tsx watch ./src/main.ts",
     "db:studio": "drizzle-kit studio --port 8081",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "tsx --env-file=.env ./src/database/migrate.ts"
+    "db:migrate": "tsx --env-file=.env ./src/database/migrate.ts",
+    "db:migrate:prod": "node dist/database/migrate.js"
   },
   "keywords": [],
   "author": "",
