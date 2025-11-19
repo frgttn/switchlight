@@ -1,0 +1,1 @@
+ALTER TABLE "user" ADD COLUMN "is_activated" boolean DEFAULT true NOT NULL;

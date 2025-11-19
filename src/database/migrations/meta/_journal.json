@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1763510074309,
+      "tag": "0000_numerous_outlaw_kid",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1763512010515,
+      "tag": "0001_medical_wendell_rand",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1763512661540,
+      "tag": "0002_lyrical_betty_ross",
+      "breakpoints": true
+    }
+  ]
+}
