@@ -10,6 +10,6 @@ export default defineConfig({
     host: process.env.POSTGRES_HOST!,
     port: Number.parseInt(process.env.POSTGRES_PORT!, 10),
     database: process.env.POSTGRES_DB!,
-    ssl: process.env.NODE_ENV! === "production",
+    ssl: process.env.NODE_ENV! !== "development",
   },
 });

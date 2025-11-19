@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { and, eq, isNotNull } from "drizzle-orm";
 import { db } from "../database";
 import { userTable } from "../database/schemas";
 import { User } from "../types/user.type";
@@ -43,6 +43,17 @@ class UserService {
       .update(userTable)
       .set({ isActivated: false })
       .where(eq(userTable.id, userId));
+  }
+
+  async getUsersEligibleForNotifications(): Promise<User[]> {
+    const users = await db.query.userTable.findMany({
+      where: and(
+        eq(userTable.isActivated, true),
+        isNotNull(userTable.outrageGroup)
+      ),
+    });
+
+    return users;
   }
 }
 
