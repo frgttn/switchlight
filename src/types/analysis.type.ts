@@ -1,4 +1,4 @@
-import { ScheduleSlot } from "./yasno.type";
+import type { ScheduleSlot } from "./yasno.type.js";
 
 export interface OutageAnalysisResult {
   message: string;

@@ -1,7 +1,7 @@
 import { and, eq, isNotNull } from "drizzle-orm";
-import { db } from "../database";
-import { userTable } from "../database/schemas";
-import { User } from "../types/user.type";
+import { db } from "../database/index.js";
+import { userTable } from "../database/schemas/index.js";
+import type { User } from "../types/user.type.js";
 
 class UserService {
   async findUserByTelegramId(telegramId: number): Promise<User | undefined> {
@@ -15,7 +15,7 @@ class UserService {
   async createUser(data: {
     telegramId: number;
     username: string;
-  }): Promise<User> {
+  }): Promise<User | undefined> {
     const newUser = await db.insert(userTable).values(data).returning();
 
     return newUser[0];

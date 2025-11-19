@@ -1,6 +1,6 @@
-import { type Context } from "grammy";
-import { userService } from "../services/user.service";
-import { validateGroupInput } from "../utils/validate";
+import type { Context } from "grammy";
+import { userService } from "../services/user.service.js";
+import { validateGroupInput } from "../utils/validate.js";
 
 class UserController {
   async start(ctx: Context) {
@@ -20,6 +20,10 @@ class UserController {
       telegramId: userId,
       username: ctx.from!.username!,
     });
+
+    if (!newUser) {
+      return ctx.reply("Failed to create user. Please try again.");
+    }
 
     ctx.reply(`Welcome, @${newUser.username}! Your account has been created.`);
   }

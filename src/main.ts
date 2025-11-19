@@ -1,10 +1,10 @@
 import "dotenv/config";
 
 import { Bot } from "grammy";
-import { userController } from "./controllers/user.controller";
-import { outrageController } from "./controllers/outrage.controller";
-import { startHourlyOutrageBroadcast } from "./services/broadcast.service";
-import { OUTRAGE_BROADCAST_INTERVAL_MS } from "./constants";
+import { userController } from "./controllers/user.controller.js";
+import { outrageController } from "./controllers/outrage.controller.js";
+import { startHourlyOutrageBroadcast } from "./services/broadcast.service.js";
+import { OUTRAGE_BROADCAST_INTERVAL_MS } from "./constants/index.js";
 
 const bot = new Bot(process.env.TELEGRAM_API_TOKEN!);
 

@@ -1,8 +1,8 @@
-import { Bot } from "grammy";
-import { outrageService } from "./outrage.service";
-import { userService } from "./user.service";
-import { GroupScheduleData } from "../types/yasno.type";
-import { OUTRAGE_BROADCAST_INTERVAL_MS } from "../constants";
+import type { Bot } from "grammy";
+import { outrageService } from "./outrage.service.js";
+import { userService } from "./user.service.js";
+import type { GroupScheduleData } from "../types/yasno.type.js";
+import { OUTRAGE_BROADCAST_INTERVAL_MS } from "../constants/index.js";
 
 type BroadcastOptions = {
   intervalMs?: number;

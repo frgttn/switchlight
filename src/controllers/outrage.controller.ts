@@ -1,6 +1,6 @@
-import { type Context } from "grammy";
-import { userService } from "../services/user.service";
-import { outrageService } from "../services/outrage.service";
+import type { Context } from "grammy";
+import { userService } from "../services/user.service.js";
+import { outrageService } from "../services/outrage.service.js";
 
 class OutrageController {
   async getLastUpdate(ctx: Context) {

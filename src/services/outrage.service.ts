@@ -1,11 +1,11 @@
-import { REQUEST_TIMEOUT, YASNO_API_URL } from "../constants";
-import { OutageAnalysisResult } from "../types/analysis.type";
-import {
+import { REQUEST_TIMEOUT, YASNO_API_URL } from "../constants/index.js";
+import type { OutageAnalysisResult } from "../types/analysis.type.js";
+import type {
   GroupScheduleData,
   ScheduleSlot,
   YasnoResponse,
-} from "../types/yasno.type";
-import { formatTime } from "../utils/time";
+} from "../types/yasno.type.js";
+import { formatTime } from "../utils/time.js";
 
 class OutrageService {
   async getYasnoDataByGroup(groupId: string): Promise<GroupScheduleData> {
