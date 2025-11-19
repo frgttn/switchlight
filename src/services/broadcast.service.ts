@@ -22,6 +22,8 @@ export function startHourlyOutrageBroadcast(
         return;
       }
 
+      const yasnoData = await outrageService.getYasnoData();
+
       const groupCache = new Map<string, GroupScheduleData>();
 
       for (const user of users) {
@@ -31,7 +33,8 @@ export function startHourlyOutrageBroadcast(
 
         try {
           if (!groupCache.has(user.outrageGroup)) {
-            const schedule = await outrageService.getYasnoDataByGroup(
+            const schedule = outrageService.getOutrageDataByGroup(
+              yasnoData,
               user.outrageGroup
             );
             groupCache.set(user.outrageGroup, schedule);
@@ -51,6 +54,8 @@ export function startHourlyOutrageBroadcast(
           await bot.api.sendMessage(user.telegramId, message, {
             parse_mode: "MarkdownV2",
           });
+
+          await new Promise((resolve) => setTimeout(resolve, 500));
         } catch (error) {
           console.error(
             `Failed to send broadcast to user ${user.telegramId}:`,

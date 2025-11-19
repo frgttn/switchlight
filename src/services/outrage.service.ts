@@ -8,7 +8,7 @@ import type {
 import { formatTime } from "../utils/time.js";
 
 class OutrageService {
-  async getYasnoDataByGroup(groupId: string): Promise<GroupScheduleData> {
+  async getYasnoData(): Promise<YasnoResponse> {
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
@@ -33,18 +33,28 @@ class OutrageService {
       if (!yasnoData || typeof yasnoData !== "object") {
         throw new Error("Invalid API response: expected an object");
       }
-
-      if (!yasnoData[groupId]) {
-        throw new Error(`Group "${groupId}" not found in API response`);
-      }
-
-      return yasnoData[groupId];
+      return yasnoData;
     } catch (error: any) {
       if (error.name === "AbortError") {
         throw new Error(`API request timed out after ${REQUEST_TIMEOUT}ms`);
       }
       throw new Error(`Failed to fetch Yasno data: ${error.message}`);
     }
+  }
+
+  getOutrageDataByGroup(
+    yasnoData: YasnoResponse,
+    groupId: string
+  ): GroupScheduleData {
+    if (!yasnoData || typeof yasnoData !== "object") {
+      throw new Error("Invalid API response: expected an object");
+    }
+
+    if (!yasnoData[groupId]) {
+      throw new Error(`Group "${groupId}" not found in API response`);
+    }
+
+    return yasnoData[groupId];
   }
 
   analyzeOutrageData(schedule: ScheduleSlot[]): OutageAnalysisResult {

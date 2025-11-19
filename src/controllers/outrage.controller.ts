@@ -16,7 +16,10 @@ class OutrageController {
       return ctx.reply("Please set your outrage group first.");
     }
 
-    const lastUpdate = await outrageService.getYasnoDataByGroup(
+    const yasnoData = await outrageService.getYasnoData();
+
+    const lastUpdate = await outrageService.getOutrageDataByGroup(
+      yasnoData,
       user.outrageGroup
     );
 
