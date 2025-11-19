@@ -1,9 +1,14 @@
 import { type Context } from "grammy";
 import { userService } from "../services/user.service";
+import { validateGroupInput } from "../utils/validate";
 
 class UserController {
   async start(ctx: Context) {
-    const userId = ctx.from!.id;
+    if (!ctx.from) {
+      return ctx.reply("Could not determine user identity.");
+    }
+
+    const userId = ctx.from.id;
 
     const user = await userService.findUserByTelegramId(userId);
 
@@ -20,17 +25,22 @@ class UserController {
   }
 
   async changeGroup(ctx: Context) {
-    const userId = ctx.from!.id;
+    if (!ctx.from) {
+      return ctx.reply("Could not determine user identity.");
+    }
+
+    const userId = ctx.from.id;
 
     const user = await userService.findUserByTelegramId(userId);
 
-    if (user) {
-      return ctx.reply("That user already exists.");
+    if (!user) {
+      return ctx.reply("User not found. Please /start the bot first.");
     }
 
     const newGroup = ctx.match;
+    const isValidGroup = validateGroupInput(newGroup);
 
-    if (!newGroup) {
+    if (!isValidGroup) {
       return ctx.reply("Please provide a valid group.");
     }
 
@@ -39,7 +49,11 @@ class UserController {
   }
 
   async activateNotifications(ctx: Context) {
-    const userId = ctx.from!.id;
+    if (!ctx.from) {
+      return ctx.reply("Could not determine user identity.");
+    }
+
+    const userId = ctx.from.id;
 
     const user = await userService.findUserByTelegramId(userId);
 
@@ -52,7 +66,12 @@ class UserController {
   }
 
   async deactivateNotifications(ctx: Context) {
-    const userId = ctx.from!.id;
+    if (!ctx.from) {
+      return ctx.reply("Could not determine user identity.");
+    }
+
+    const userId = ctx.from.id;
+
     const user = await userService.findUserByTelegramId(userId);
 
     if (!user) {

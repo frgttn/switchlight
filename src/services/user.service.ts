@@ -1,17 +1,10 @@
 import { eq } from "drizzle-orm";
 import { db } from "../database";
 import { userTable } from "../database/schemas";
+import { User } from "../types/user.type";
 
 class UserService {
-  async findUserByTelegramId(telegramId: number): Promise<
-    | {
-        id: number;
-        telegramId: number;
-        username: string;
-        createdAt: Date;
-      }
-    | undefined
-  > {
+  async findUserByTelegramId(telegramId: number): Promise<User | undefined> {
     const user = await db.query.userTable.findFirst({
       where: eq(userTable.telegramId, telegramId),
     });
@@ -19,12 +12,10 @@ class UserService {
     return user;
   }
 
-  async createUser(data: { telegramId: number; username: string }): Promise<{
-    id: number;
+  async createUser(data: {
     telegramId: number;
     username: string;
-    createdAt: Date;
-  }> {
+  }): Promise<User> {
     const newUser = await db.insert(userTable).values(data).returning();
 
     return newUser[0];
