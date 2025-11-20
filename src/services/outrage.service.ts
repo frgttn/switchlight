@@ -180,9 +180,8 @@ class OutrageService {
         currentMinutes >= slot.start && currentMinutes < slot.end;
 
       const icon = isLightOn ? "🔆" : "🌑";
-      const status = isLightOn ? "ПОТУЖНО" : "НЕ ПОТУЖНО";
 
-      let row = `${icon} \`${start} - ${end}\` ${status}`;
+      let row = `${icon} \`${start} - ${end}\``;
 
       if (isCurrent) {
         row += " 👈 *ЗАРАЗ*";
@@ -191,7 +190,11 @@ class OutrageService {
       return row;
     });
 
-    return ["📅 *SCHEDULE*", "", ...rows].join("\n");
+    return [
+      "📅 *SCHEDUUULE! Це ORDERS від MASTER! ВСЕ має бути STRICT!*",
+      "",
+      ...rows,
+    ].join("\n");
   }
 }
 export const outrageService = new OutrageService();
