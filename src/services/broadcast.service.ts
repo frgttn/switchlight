@@ -51,7 +51,13 @@ export function startHourlyOutrageBroadcast(
           );
           const message = outrageService.drawOutrageMessage(analysis);
 
-          await bot.api.sendMessage(user.telegramId, message, {
+          const schedule = outrageService.drawScheduleMessage(
+            groupData.today.slots
+          );
+
+          const fullMessage = `${message}\n\n${schedule}`;
+
+          await bot.api.sendMessage(user.telegramId, fullMessage, {
             parse_mode: "MarkdownV2",
           });
 

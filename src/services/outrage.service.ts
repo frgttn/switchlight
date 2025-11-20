@@ -140,7 +140,7 @@ class OutrageService {
       text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, "\\$&");
 
     const outputLines = [];
-    outputLines.push(`*${escape("Статус потіжності")}*`);
+    outputLines.push(`*${escape("💪💪💪 Стан потіжності")}*\n`);
     outputLines.push(escape(analysis.message));
     outputLines.push("");
     outputLines.push(`*${escape("Деталі:")}*`);
@@ -155,9 +155,7 @@ class OutrageService {
     );
     if (analysis.minutesUntilChange !== null) {
       outputLines.push(
-        `\\- Minutes until change: ${escape(
-          analysis.minutesUntilChange.toString()
-        )}`
+        `\\- Хвилин до зміни: ${escape(analysis.minutesUntilChange.toString())}`
       );
     }
 
@@ -166,7 +164,7 @@ class OutrageService {
 
   drawScheduleMessage(schedule: ScheduleSlot[]): string {
     if (!schedule || schedule.length === 0) {
-      return "NO SCHEDULE! Це означає, що BOSS не дає RULES! FREE STYLE! Ми не знаємо, коли POWER прийде чи піде! PREPARE FOR SURPRISE, BOY!";
+      return "NO SCHEDULE\\! Це означає, що BOSS не дає RULES\\! FREE STYLE\\! Ми не знаємо, коли POWER прийде чи піде\\! PREPARE FOR SURPRISE, BOY\\!";
     }
 
     const now = new Date();
@@ -191,7 +189,7 @@ class OutrageService {
     });
 
     return [
-      "📅 *SCHEDUUULE! Це ORDERS від MASTER! ВСЕ має бути STRICT!*",
+      "📅 *SCHEDUUULE\\! Це ORDERS від MASTER\\! ВСЕ має бути STRICT\\!*",
       "",
       ...rows,
     ].join("\n");

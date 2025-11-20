@@ -7,10 +7,10 @@ export function formatTime(minutes: number): string {
   const m = minutes % 60;
   let result = [];
 
-  if (h > 0) result.push(`${h} ч.`);
-  if (m > 0) result.push(`${m} мин.`);
+  if (h > 0) result.push(`${h} г.`);
+  if (m > 0) result.push(`${m} хв`);
 
-  return result.length > 0 ? result.join(" ") : "0 мин.";
+  return result.length > 0 ? result.join(" ") : "0 хв";
 }
 
 export function formatTimeOfDay(minutes: number): string {
