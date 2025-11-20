@@ -5,7 +5,7 @@ import type {
   ScheduleSlot,
   YasnoResponse,
 } from "../types/yasno.type.js";
-import { formatTime } from "../utils/time.js";
+import { formatTime, formatTimeOfDay } from "../utils/time.js";
 
 class OutrageService {
   async getYasnoData(): Promise<YasnoResponse> {
@@ -140,17 +140,17 @@ class OutrageService {
       text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, "\\$&");
 
     const outputLines = [];
-    outputLines.push(`*${escape("Power Status")}*`);
+    outputLines.push(`*${escape("Статус потіжності")}*`);
     outputLines.push(escape(analysis.message));
     outputLines.push("");
-    outputLines.push(`*${escape("Details:")}*`);
+    outputLines.push(`*${escape("Деталі:")}*`);
     outputLines.push(
-      `\\- Light is on: ${
+      `\\- Світло є: ${
         analysis.lightIsOn !== null
           ? analysis.lightIsOn
-            ? `*${escape("YES")}* ✅`
-            : `*${escape("NO")}* ❌`
-          : escape("Unknown")
+            ? `*${escape("ТАК")}* ✅`
+            : `*${escape("НІ")}* ❌`
+          : escape("Невідомо")
       }`
     );
     if (analysis.minutesUntilChange !== null) {
@@ -162,6 +162,36 @@ class OutrageService {
     }
 
     return outputLines.join("\n");
+  }
+
+  drawScheduleMessage(schedule: ScheduleSlot[]): string {
+    if (!schedule || schedule.length === 0) {
+      return "NO SCHEDULE! Це означає, що BOSS не дає RULES! FREE STYLE! Ми не знаємо, коли POWER прийде чи піде! PREPARE FOR SURPRISE, BOY!";
+    }
+
+    const now = new Date();
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+    const rows = schedule.map((slot) => {
+      const start = formatTimeOfDay(slot.start);
+      const end = formatTimeOfDay(slot.end);
+      const isLightOn = slot.type === "NotPlanned";
+      const isCurrent =
+        currentMinutes >= slot.start && currentMinutes < slot.end;
+
+      const icon = isLightOn ? "🔆" : "🌑";
+      const status = isLightOn ? "ПОТУЖНО" : "НЕ ПОТУЖНО";
+
+      let row = `${icon} \`${start} - ${end}\` ${status}`;
+
+      if (isCurrent) {
+        row += " 👈 *ЗАРАЗ*";
+      }
+
+      return row;
+    });
+
+    return ["📅 *SCHEDULE*", "", ...rows].join("\n");
   }
 }
 export const outrageService = new OutrageService();

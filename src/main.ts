@@ -18,6 +18,8 @@ bot.command("deactivate", userController.deactivateNotifications);
 
 bot.command("get_info", outrageController.getLastUpdate);
 
+bot.command("power_schedule", outrageController.getPowerSchedule);
+
 startHourlyOutrageBroadcast(bot, { intervalMs: OUTRAGE_BROADCAST_INTERVAL_MS });
 
 bot.start();
