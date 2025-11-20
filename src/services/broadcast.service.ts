@@ -58,7 +58,10 @@ export function startHourlyOutrageBroadcast(
           const analysis = outrageService.analyzeOutrageData(groupData.today);
           const message = outrageService.drawOutrageMessage(analysis);
 
-          const schedule = outrageService.drawScheduleMessage(groupData.today);
+          const schedule = outrageService.drawScheduleMessage(
+            groupData.today,
+            groupData.tomorrow
+          );
 
           fullMessage =
             groupData.today.status === "EmergencyShutdowns"

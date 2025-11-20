@@ -3,7 +3,6 @@ import type { OutageAnalysisResult } from "../types/analysis.type.js";
 import type {
   DaySchedule,
   GroupScheduleData,
-  ScheduleSlot,
   YasnoResponse,
 } from "../types/yasno.type.js";
 import { formatTime, formatTimeOfDay } from "../utils/time.js";
@@ -174,7 +173,10 @@ class OutrageService {
     return outputLines.join("\n");
   }
 
-  drawScheduleMessage(daySchedule: DaySchedule): string {
+  drawScheduleMessage(
+    daySchedule: DaySchedule,
+    tomorrowSchedule?: DaySchedule
+  ): string {
     const { slots: schedule, status } = daySchedule;
 
     if (status === "EmergencyShutdowns") {
@@ -206,11 +208,26 @@ class OutrageService {
       return row;
     });
 
-    return [
-      "📅 *SCHEDUUULE\\! Це ORDERS від MASTER\\! ВСЕ має бути STRICT\\!*",
-      "",
-      ...rows,
-    ].join("\n");
+    let message = ["📅 *SCHEDUUULE\\!*", "", ...rows].join("\n");
+
+    if (
+      now.getHours() >= 20 &&
+      tomorrowSchedule?.slots &&
+      tomorrowSchedule.slots.length > 0
+    ) {
+      const tomorrowRows = tomorrowSchedule.slots.map((slot) => {
+        const start = formatTimeOfDay(slot.start);
+        const end = formatTimeOfDay(slot.end);
+        const isLightOn = slot.type === "NotPlanned";
+        const icon = isLightOn ? "🔆" : "🌑";
+        return `${icon} \`${start} - ${end}\``;
+      });
+
+      message +=
+        "\n\n📅 *TOMORROW\\! ЗАВТРА\\!* \n\n" + tomorrowRows.join("\n");
+    }
+
+    return message;
   }
 }
 export const outrageService = new OutrageService();

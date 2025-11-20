@@ -65,7 +65,10 @@ class OutrageController {
       return ctx.reply("No updates found for your outrage group.");
     }
 
-    const message = outrageService.drawScheduleMessage(lastUpdate.today);
+    const message = outrageService.drawScheduleMessage(
+      lastUpdate.today,
+      lastUpdate.tomorrow
+    );
     return ctx.reply(message, { parse_mode: "MarkdownV2" });
   }
 }
