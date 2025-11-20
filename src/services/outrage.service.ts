@@ -98,7 +98,7 @@ class OutrageService {
 
     if (!currentInterval) {
       return {
-        message: "Dungeon... NOT FOUND\\! Power status unknown, brother.",
+        message: "Dungeon... NOT FOUND\\! Power status unknown\\, brother\\.",
         lightIsOn: null,
         minutesUntilChange: null,
         nextChange: null,
@@ -131,7 +131,7 @@ class OutrageService {
 
     if (lightIsOn) {
       return {
-        message: `Deep Dark Fantasy... Так-с, брат. Наш Power ще грає м'язами... але BOSS сказав, що TIME на Deep розваги закінчиться через ${timeStr}\\! GET READY, BOY\\!`,
+        message: `Deep Dark Fantasy\\.\\.\\. Так\\-с, брат\\. Наш Power ще грає м\\'язами\\.\\.\\. але BOSS сказав\\, що TIME на Deep розваги закінчиться через ${timeStr}\\! GET READY, BOY\\!`,
         lightIsOn,
         minutesUntilChange,
         nextChange,
