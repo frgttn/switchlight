@@ -1,6 +1,7 @@
 import { REQUEST_TIMEOUT, YASNO_API_URL } from "../constants/index.js";
 import type { OutageAnalysisResult } from "../types/analysis.type.js";
 import type {
+  DaySchedule,
   GroupScheduleData,
   ScheduleSlot,
   YasnoResponse,
@@ -57,7 +58,18 @@ class OutrageService {
     return yasnoData[groupId];
   }
 
-  analyzeOutrageData(schedule: ScheduleSlot[]): OutageAnalysisResult {
+  analyzeOutrageData(daySchedule: DaySchedule): OutageAnalysisResult {
+    const { slots: schedule, status } = daySchedule;
+
+    if (status === "EmergencyShutdowns") {
+      return {
+        message: `🚨 *A\\-A\\-AH\\! FUCK YOU\\!* EMERGENCY 🚨🚨🚨\\! _SHUTDOWN\\! CHAOS\\! SCHEDULE \\- NOT WORKING\\! Це HARD MODE\\! Але ми Gonna MAKE IT\\!_ *WE ARE THE CHAMPIONS\\! STAY STRONG, BOYS\\!*`,
+        lightIsOn: null,
+        minutesUntilChange: null,
+        nextChange: null,
+      };
+    }
+
     if (!Array.isArray(schedule)) {
       throw new Error("Invalid schedule: must be an array");
     }
@@ -87,7 +99,7 @@ class OutrageService {
 
     if (!currentInterval) {
       return {
-        message: "Dungeon... NOT FOUND! Power status unknown, brother.",
+        message: "Dungeon... NOT FOUND\\! Power status unknown, brother.",
         lightIsOn: null,
         minutesUntilChange: null,
         nextChange: null,
@@ -107,8 +119,8 @@ class OutrageService {
     if (!nextChange) {
       return {
         message: lightIsOn
-          ? "POWER є! LIGHTS ON! Ми маємо час на Deep Dark Training! ДО КІНЦЯ ДОБИ! DO IT! Світло буде триматись до самого кінця доби, брате."
-          : "NO POWER! NO LIGHT! Це CRUEL MISTAKE! Нам доведеться STRUGGLE у темряві ДО КІНЦЯ ДОБИ! терпіння... IS KEY!",
+          ? "POWER є\\! LIGHTS ON\\! Ми маємо час на Deep Dark Training\\! ДО КІНЦЯ ДОБИ\\! DO IT\\! Світло буде триматись до самого кінця доби, брате."
+          : "NO POWER\\! NO LIGHT\\! Це CRUEL MISTAKE\\! Нам доведеться STRUGGLE у темряві ДО КІНЦЯ ДОБИ\\! Терпіння\\.\\.\\. IS KEY\\!",
         lightIsOn,
         minutesUntilChange: null,
         nextChange: null,
@@ -120,14 +132,14 @@ class OutrageService {
 
     if (lightIsOn) {
       return {
-        message: `Deep Dark Fantasy... Так-с, брат. Наш Power ще грає м'язами... але BOSS сказав, що TIME на Deep розваги закінчиться через ${timeStr}! GET READY, BOY!`,
+        message: `Deep Dark Fantasy... Так-с, брат. Наш Power ще грає м'язами... але BOSS сказав, що TIME на Deep розваги закінчиться через ${timeStr}\\! GET READY, BOY\\!`,
         lightIsOn,
         minutesUntilChange,
         nextChange,
       };
     } else {
       return {
-        message: `NO LIGHT. NO POWER! Наш dungeon зараз deep і dark! Це ж pain! Але MASTER обіцяв, що POWER повернеться за ${timeStr}! STAY STRONG, BROTHER!`,
+        message: `*NO LIGHT NO POWER\\!* Наш _dungeon_ зараз *deep і dark*\\! Це ж *pain*\\! Але _*MASTER*_ обіцяв, що _*POWER*_ повернеться за ${timeStr}\\! *STAY STRONG, BROTHER\\!*`,
         lightIsOn,
         minutesUntilChange,
         nextChange,
@@ -141,7 +153,7 @@ class OutrageService {
 
     const outputLines = [];
     outputLines.push(`*${escape("💪💪💪 Стан потіжності")}*\n`);
-    outputLines.push(escape(analysis.message));
+    outputLines.push(analysis.message);
     outputLines.push("");
     outputLines.push(`*${escape("Деталі:")}*`);
     outputLines.push(
@@ -150,7 +162,7 @@ class OutrageService {
           ? analysis.lightIsOn
             ? `*${escape("ТАК")}* ✅`
             : `*${escape("НІ")}* ❌`
-          : escape("Невідомо")
+          : escape("НЕВІДОМО")
       }`
     );
     if (analysis.minutesUntilChange !== null) {
@@ -162,9 +174,15 @@ class OutrageService {
     return outputLines.join("\n");
   }
 
-  drawScheduleMessage(schedule: ScheduleSlot[]): string {
+  drawScheduleMessage(daySchedule: DaySchedule): string {
+    const { slots: schedule, status } = daySchedule;
+
+    if (status === "EmergencyShutdowns") {
+      return `🚨 *A\\-A\\-AH\\! FUCK YOU\\!* EMERGENCY 🚨🚨🚨\\! _SHUTDOWN\\! CHAOS\\! SCHEDULE \\- NOT WORKING\\! Це HARD MODE\\! Але ми Gonna MAKE IT\\!_ *WE ARE THE CHAMPIONS\\! STAY STRONG, BOYS\\!*`;
+    }
+
     if (!schedule || schedule.length === 0) {
-      return "NO SCHEDULE\\! Це означає, що BOSS не дає RULES\\! FREE STYLE\\! Ми не знаємо, коли POWER прийде чи піде\\! PREPARE FOR SURPRISE, BOY\\!";
+      return `💪 *NO SCHEDULE*\\! 💪\n\nЦе означає, що *BOSS* не дає *RULES*\\! *FREE STYLE*\\! Ми не знаємо, коли *POWER* прийде чи піде\\! _PREPARE FOR SURPRISE, BOY_\\!`;
     }
 
     const now = new Date();

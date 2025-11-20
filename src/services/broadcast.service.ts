@@ -42,20 +42,28 @@ export function startHourlyOutrageBroadcast(
 
           const groupData = groupCache.get(user.outrageGroup);
 
-          if (!groupData?.today?.slots?.length) {
+          if (!groupData?.today) {
             continue;
           }
 
-          const analysis = outrageService.analyzeOutrageData(
-            groupData.today.slots
-          );
+          let fullMessage: string;
+
+          if (
+            groupData.today.status !== "EmergencyShutdowns" &&
+            !groupData.today.slots?.length
+          ) {
+            continue;
+          }
+
+          const analysis = outrageService.analyzeOutrageData(groupData.today);
           const message = outrageService.drawOutrageMessage(analysis);
 
-          const schedule = outrageService.drawScheduleMessage(
-            groupData.today.slots
-          );
+          const schedule = outrageService.drawScheduleMessage(groupData.today);
 
-          const fullMessage = `${message}\n\n${schedule}`;
+          fullMessage =
+            groupData.today.status === "EmergencyShutdowns"
+              ? message
+              : `${message}\n\n${schedule}`;
 
           await bot.api.sendMessage(user.telegramId, fullMessage, {
             parse_mode: "MarkdownV2",

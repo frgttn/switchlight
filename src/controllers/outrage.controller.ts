@@ -22,7 +22,7 @@ class OutrageController {
 
     const yasnoData = await outrageService.getYasnoData();
 
-    const lastUpdate = await outrageService.getOutrageDataByGroup(
+    const lastUpdate = outrageService.getOutrageDataByGroup(
       yasnoData,
       user.outrageGroup
     );
@@ -31,7 +31,7 @@ class OutrageController {
       return ctx.reply("No updates found for your outrage group.");
     }
 
-    const analysis = outrageService.analyzeOutrageData(lastUpdate.today.slots);
+    const analysis = outrageService.analyzeOutrageData(lastUpdate.today);
     const message = outrageService.drawOutrageMessage(analysis);
 
     return ctx.reply(message, { parse_mode: "MarkdownV2" });
@@ -65,7 +65,7 @@ class OutrageController {
       return ctx.reply("No updates found for your outrage group.");
     }
 
-    const message = outrageService.drawScheduleMessage(lastUpdate.today.slots);
+    const message = outrageService.drawScheduleMessage(lastUpdate.today);
     return ctx.reply(message, { parse_mode: "MarkdownV2" });
   }
 }

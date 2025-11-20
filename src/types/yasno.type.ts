@@ -1,6 +1,9 @@
 export type SlotType = "NotPlanned" | "Definite" | string;
 
-export type ScheduleStatus = "ScheduleApplies" | "WaitingForSchedule" | string;
+export type ScheduleStatus =
+  | "ScheduleApplies"
+  | "WaitingForSchedule"
+  | "EmergencyShutdowns";
 
 export interface ScheduleSlot {
   start: number;
