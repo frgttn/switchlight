@@ -71,24 +71,24 @@ export function startHourlyOutrageBroadcast(
 
           await new Promise((resolve) => setTimeout(resolve, 500));
         } catch (error) {
-          console.log(
+          console.error(
             `Failed to send broadcast to user ${user.telegramId}:`,
             error
           );
         }
       }
     } catch (error) {
-      console.log("Hourly broadcast failed:", error);
+      console.error("Hourly broadcast failed:", error);
     }
   };
 
   runBroadcast().catch((error) =>
-    console.log("Initial hourly broadcast failed:", error)
+    console.error("Initial hourly broadcast failed:", error)
   );
 
   setInterval(() => {
     runBroadcast().catch((error) =>
-      console.log("Scheduled hourly broadcast failed:", error)
+      console.error("Scheduled hourly broadcast failed:", error)
     );
   }, intervalMs);
 }
